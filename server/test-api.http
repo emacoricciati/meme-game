@@ -1,0 +1,58 @@
+## Execute Log In
+POST http://localhost:3001/api/sessions HTTP/1.1
+content-type: application/json
+
+{
+    "username": "emanuele.coricciati@polito.it",
+    "password": "password"
+}
+###
+
+## Checking if user is still logged-in.
+GET http://localhost:3001/api/sessions/current HTTP/1.1
+###
+
+## Execute Log Out.
+DELETE http://localhost:3001/api/sessions/current HTTP/1.1
+###
+
+### Get random image
+GET http://localhost:3001/api/images HTTP/1.1
+
+### Post a game
+POST http://localhost:3001/api/games HTTP/1.1
+content-type: application/json
+
+{
+    "total": 10,
+    "date": "2018-05-12 08:00:00",
+    "time_taken": 10,
+    "rounds": [
+        {
+            "round_number": 1,
+            "imageId": 1,
+            "captionId": 1,
+            "points": 5
+        },
+        {
+            "round_number": 2,
+            "imageId": 2,
+            "captionId": 2,
+            "points": 5
+        },
+        {
+            "round_number": 3,
+            "imageId": 3,
+            "captionId": 3,
+            "points": 5
+        }
+    ]
+}
+
+### Get all past games for an user
+GET http://localhost:3001/api/games HTTP/1.1
+
+### Get a specific game for an user
+GET http://localhost:3001/api/games/18 HTTP/1.1
+
+
