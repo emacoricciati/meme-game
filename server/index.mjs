@@ -130,7 +130,7 @@ app.delete("/api/sessions/current", (req, res) => {
 // 1. Get a random image
 // GET /api/images
 // This route returns an image object with all possible captions to play
-app.get("/api/images", isLoggedIn, (_, res) => {
+app.get("/api/images", (_, res) => {
   // get films that match optional filter in the query
   imageDAO.getRandomImage().then((image) => res.json(image)).catch((err) => res.status(500).json(err));
 });
