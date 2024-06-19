@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Button } from "react-bootstrap";
+import {CtaButton}  from "./CtaButton";
 
 export const GameOver = ({ round, score, time, closeGameOver }) => {
   return (
@@ -10,7 +10,7 @@ export const GameOver = ({ round, score, time, closeGameOver }) => {
           <h2>Rounds: {round}</h2>
           <h2>Points: {score}</h2>
           <h2>Total Time: {time}s</h2>
-          <Button className="btn-custom" onClick={closeGameOver}>Play again</Button>
+          <CtaButton text="Play again" action={closeGameOver}/>
         </div>
       </div>
     </div>

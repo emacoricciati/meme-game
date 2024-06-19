@@ -21,7 +21,9 @@ body {
   /* round images */
   border-radius: 9%;
   /*add shadow to images*/
-  box-shadow: 0 0 30px #000000;
+  border-color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 4px 4px #000000;
   /* crop image as square */
   object-fit: cover !important;
   width: 22vw !important;
@@ -120,7 +122,7 @@ body {
 /* Card */
 
 .card {
-  background: #add8e6 !important;
+  background: var(--secondary) !important;
   border-color: #000000 !important;
   border: 2px solid #000000 !important;
   box-shadow: 4px 4px #000000;
@@ -145,7 +147,7 @@ body {
   top: 20%;
   /* left: 50%;
   transform: translateX(-50%); */
-  background-color: #ffffff;
+  background-color: var(--secondary);
   border: 2px solid #343a40;
   border-radius: 10px;
   padding: 2vw;

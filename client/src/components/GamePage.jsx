@@ -11,12 +11,12 @@ export const GamePage = () => {
   const [round, setRound] = useState(1);
   const [gameOver, setGameOver] = useState(false);
   const [stopTimer, setStopTimer] = useState(false);
-  const [showCorrect, setShowCorrect] = useState(false);
+  const [showCorrectCaptions, setShowCorrectCaptions] = useState(false);
   const [time, setTime] = useState(0);
 
   useEffect(() => {
     const fetchMeme = () => {
-      getRandomMeme().then((meme) => {
+      getRandomMeme(currentMeme ? [currentMeme] : undefined).then((meme) => {
         setCurrentMeme(meme);
       });
     };
@@ -30,7 +30,7 @@ export const GamePage = () => {
       setScore((prevScore) => prevScore + 5);
     }
     else {
-      setShowCorrect(true);
+      setShowCorrectCaptions(true);
     }
     setStopTimer(true);
     setTimeout(() => {
@@ -41,13 +41,13 @@ export const GamePage = () => {
   const closeGameOver = () => {
     setGameOver(false);
     setStopTimer(false);
-    setShowCorrect(false);
+    setShowCorrectCaptions(false);
     setScore(0);
   };
 
   const getElapsedTime = (time) => {
     if (time === 30) {
-      setShowCorrect(true);
+      setShowCorrectCaptions(true);
       setTimeout(() => {
         setGameOver(true);
       }, 1000);
@@ -83,7 +83,7 @@ export const GamePage = () => {
             <CaptionList
               captions={currentMeme.captions}
               handleAnswer={handleAnswer}
-              showCorrect={showCorrect}
+              showCorrect={showCorrectCaptions}
               key={currentMeme.id}
             />
           </>

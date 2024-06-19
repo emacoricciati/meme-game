@@ -46,9 +46,10 @@ export default function ImageDAO(){
         });
     };
 
-    this.getRandomImage = () => {
+    this.getRandomImage = (excludedIds = []) => {
         return new Promise((resolve, reject) => {
-            const query = 'SELECT * FROM images ORDER BY RANDOM() LIMIT 1';
+            const placeholders = excludedIds.map(() => '?').join(',');
+            const query = `SELECT * FROM images ${placeholders.length ? 'WHERE id NOT IN (' + placeholders + ')': ''} ORDER BY RANDOM() LIMIT 1`;
             try {
                 db.get(query, async (err, row) => {
                     if (err) {
