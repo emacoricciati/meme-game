@@ -15,7 +15,7 @@ export const NavBar = () => {
               href="/"
               className="d-flex align-items-center justify-content-center justify-content-md-start h-100 link-light text-decoration-none"
             >
-              <span className="h3 mb-0">Meme Game </span>
+              <span className="h3 mb-0 text-dark">Meme Game </span>
             </a>
           </Col>
           <Col className="d-flex align-items-center justify-content-end">

@@ -71,7 +71,7 @@ export const GamePage = () => {
                   <h3>Round: {round}/3</h3>
                   <Image
                     className="img-custom"
-                    src={`src/assets/${currentMeme.filename}`}
+                    src={`src/assets/meme/${currentMeme.filename}`}
                   />
                 </div>
               </Col>

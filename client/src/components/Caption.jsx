@@ -18,9 +18,9 @@ export const Caption = (props) => {
   return (
     <Col className="d-flex justify-content-center align-items-center">
       <Button
-        className={`btn-custom h-100 fs-5 ${
-            isCorrect === true ? "btn-custom-correct" : 
-            isCorrect === false ? "btn-custom-incorrect" : ""
+        className={`h-100 fs-5 btn-custom${
+            isCorrect === true ? "-correct" : 
+            isCorrect === false ? "-incorrect" : ""
           }`}
         onClick={checkAnswer}
       >
