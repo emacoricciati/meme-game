@@ -15,6 +15,33 @@ body {
 
 /* meme image */
 
+.img-with-caption {
+  /* padding 0*/
+  padding: 0 !important;
+  /* round images */
+  border-radius: 9%;
+  /*add shadow to images*/
+  border-color: #000000 !important;
+  background-color: var(--secondary);
+  border: 2px solid #000000 !important;
+  box-shadow: 4px 4px #000000;
+  width:  22vw !important;
+  /* crop image as square */
+  object-fit: cover !important;
+  z-index: 1;
+  text-align: center;
+}
+
+.img-in-caption {
+  /* padding 0*/
+  padding: 0 !important;
+  width: 18vw !important;
+  height: 18vw !important;
+  border-radius: 9%;
+  border: 2px solid #000000 !important;
+  
+}
+
 .img-custom {
   /* padding 0*/
   padding: 0 !important;
@@ -28,7 +55,6 @@ body {
   object-fit: cover !important;
   width: 22vw !important;
   height: 22vw !important;
-
 }
 
 /* Navbar */
@@ -109,7 +135,7 @@ body {
   height: 40px;
   border-radius: 5px;
   border: 2px solid #000000 !important;
-  background-color: var(--primary) !important;
+  background-color: white !important;
   box-shadow: 4px 4px #000000;
   font-size: 17px;
   font-weight: 600;
@@ -148,17 +174,38 @@ body {
 }
 
 .game-over-container {
-  position: absolute;
-  top: 20%;
-  /* left: 50%;
-  transform: translateX(-50%); */
-  background-color: var(--secondary);
+  /* position: absolute; */
+  background-color: #d7efee;
   border: 2px solid #343a40;
   border-radius: 10px;
-  padding: 2vw;
-  text-align: center;
-  width: 40vw;
   z-index: 101;
+  min-width: 40vw;
+}
+
+.game-over-img-container {
+  /* padding 0*/
+  padding: 0 !important;
+  /* round images */
+  border-radius: 9%;
+  /*add shadow to images*/
+  border-color: #000000 !important;
+  background-color: var(--secondary);
+  border: 2px solid #000000 !important;
+  box-shadow: 4px 4px #000000;
+  width:  15vw !important;
+  /* crop image as square */
+  object-fit: cover !important;
+  z-index: 1;
+  text-align: center;
+}
+
+.game-over-img {
+  padding: 0 !important;
+  width: 10vw !important;
+  height: 10vw !important;
+  border-radius: 9%;
+  border: 2px solid #000000 !important;
+  
 }
 
 .game-over-title {

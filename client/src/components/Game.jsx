@@ -10,7 +10,7 @@ export const Game = ({ game, gameID }) => {
     <div className="card mb-4 p-2 btn-custom" style={{cursor: 'pointer'}} onClick={() => navigate("/games/" + gameID, {state: {gameId: game.game_id}})}>
       <Row>
         <Col>
-          <h1>Game {gameID}</h1>
+          <h1>Game #{gameID}</h1>
         </Col>
         <Col>
           <h3>Date: {dayjs(parseInt(game.date)).format("YYYY-MM-DD HH:mm")}</h3>
@@ -18,7 +18,7 @@ export const Game = ({ game, gameID }) => {
       </Row>
       <Row>
         <Col>
-          <h3>Total: {game.total}</h3>
+          <h3>Total points: {game.total}</h3>
         </Col>
         <Col>
           <h3>Time taken: {game.time_taken}s</h3>

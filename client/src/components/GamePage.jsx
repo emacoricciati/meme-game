@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Container, Row, Col, Image } from "react-bootstrap";
+import { Container, Row, Col, Image, Alert } from "react-bootstrap";
 import { Timer } from "./Timer";
 import { getRandomMeme } from "../API";
 import { CaptionList } from "./CaptionList";
@@ -17,6 +17,8 @@ export const GamePage = ({ isLoggedIn }) => {
   const [time, setTime] = useState(0);
   const [memes, setMemes] = useState([]);
   const [savedRounds, setSavedRounds] = useState([]);
+  const [show, setShow] = useState(false);
+  const [feedback, setFeedback] = useState("");
   const initialRender = useRef(true); // to prevent two fetches on first render
   // useRef instead of useState because we don't want to re-render when it changes
 
@@ -57,14 +59,17 @@ export const GamePage = ({ isLoggedIn }) => {
         time_taken: time,
         rounds: savedRounds,
       };
-      postGame(game)
+      postGame(game); // TO DO  check response
     }
   }, [gameOver]);
 
-  const handleAnswer = (isCorrect, captionId) => {
+  const handleAnswer = (isCorrect, captionId, caption) => {
+    setShow(true);
     if (isCorrect) {
+      setFeedback("Correct answer!");
       setScore((prevScore) => prevScore + 5);
     } else {
+      setFeedback("Incorrect answer!");
       setShowCorrectCaptions(true);
     }
     setStopTimer(true);
@@ -73,11 +78,13 @@ export const GamePage = ({ isLoggedIn }) => {
       imageId: currentMeme.id,
       captionId,
       points: isCorrect ? 5 : 0,
+      caption,
     };
     setSavedRounds((prevRounds) => [...prevRounds, savedRound]);
     if (isLoggedIn && round < 3) {
       setTimeout(() => {
         setRound((prevRound) => prevRound + 1);
+        setShow(false);
       }, 1000);
     } else {
       setMemes([]);
@@ -90,6 +97,8 @@ export const GamePage = ({ isLoggedIn }) => {
   // TO DO change last image of one game to first image of next game
 
   const closeGameOver = () => {
+    setShow(false);
+    setSavedRounds([]);
     setTime(0);
     setRound(1);
     setGameOver(false);
@@ -102,16 +111,20 @@ export const GamePage = ({ isLoggedIn }) => {
     if (time === 30) {
       setStopTimer(true);
       setShowCorrectCaptions(true);
+      setShow(true);
+      setFeedback("Time's up!");
       const savedRound = {
         round_number: round,
         imageId: currentMeme.id,
         captionId: null,
         points: 0,
+        caption: "Not answered",
       };
       setSavedRounds((prevRounds) => [...prevRounds, savedRound]);
       if (isLoggedIn && round < 3) {
         setTimeout(() => {
           setRound((prevRound) => prevRound + 1);
+          setShow(false);
         }, 1000);
       } else {
         setTimeout(() => {
@@ -140,13 +153,24 @@ export const GamePage = ({ isLoggedIn }) => {
                   </h3>
                   <Image
                     className="img-custom"
-                    src={`src/assets/meme/${currentMeme.filename}`}
+                    src={`/meme/${currentMeme.filename}`}
                   />
                 </div>
               </Col>
-              <Col className="col-4 d-flex justify-content-center align-items-center">
-                <i className="bi bi-trophy-fill h1 text-warning me-2"></i>
-                <h1>Score: {score}</h1>
+              <Col className="col-4 d-flex flex-column justify-content-center align-items-center position-relative">
+                <div className="d-flex align-items-center">
+                  <i className="bi bi-trophy-fill h1 text-warning me-2"></i>
+                  <h1>Score: {score}</h1>
+                </div>
+                <Alert
+                  show={show}
+                  onClose={() => setShow(false)}
+                  variant={feedback === "Correct answer!" ? "success" : "danger"}
+                  className="mt-3 position-absolute w-100"
+                  style={{ top: "70%" }}
+                >
+                  {feedback}
+                </Alert>
               </Col>
             </Row>
             <CaptionList
@@ -161,7 +185,7 @@ export const GamePage = ({ isLoggedIn }) => {
       {gameOver && (
         <div className="overlay">
           <GameOver
-            round={round}
+            rounds={savedRounds}
             score={score}
             time={time}
             closeGameOver={closeGameOver}

@@ -1,5 +1,4 @@
 import { Container, Row, Col, Image } from "react-bootstrap";
-import homeImage from "../assets/home.jpg"
 import {useNavigate} from "react-router-dom";
 import { CtaButton } from "./CtaButton";
 export const HomePage = () => {
@@ -16,7 +15,7 @@ const navigate = useNavigate();
               </div>
         </Col>
         <Col className="d-flex justify-content-center align-items-center">
-          <Image src={homeImage} roundedCircle width={550}/>
+          <Image src={"/home.jpg"} roundedCircle width={550}/>
         </Col>
       </Row>
     </Container>

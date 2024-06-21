@@ -11,7 +11,7 @@ export const Caption = (props) => {
 
   const checkAnswer = () => {
     setIsCorrect(props.caption.correct);
-    props.handleAnswer(props.caption.correct, props.caption.id);
+    props.handleAnswer(props.caption.correct, props.caption.id, props.caption.text);
   };
 
   useEffect(() => {

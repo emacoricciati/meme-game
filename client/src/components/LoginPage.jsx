@@ -17,7 +17,7 @@ export const LoginPage = ({login}) => {
     const credentials = { username, password };
 
     login(credentials)
-      .then ( () => navigate( "/" ) )
+      .then ( () => navigate( "/profile" ) )
       .catch( (err) => {
         if(err.message === "Unauthorized")
           setErrorMessage("Invalid username and/or password");

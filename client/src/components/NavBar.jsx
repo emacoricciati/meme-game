@@ -1,6 +1,5 @@
 import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import Smile from "../assets/smile.png";
 import PropType from "prop-types";
 
 export const NavBar = ({ logout, isLoggedIn }) => {
@@ -19,7 +18,7 @@ export const NavBar = ({ logout, isLoggedIn }) => {
               href="/"
               className="d-flex align-items-center justify-content-center justify-content-md-start h-100 link-light text-decoration-none"
             >
-              <Image src={Smile} width={50} className="me-2 pe-auto" />
+              <Image src={"/smile.png"} width={50} className="me-2 pe-auto" />
               <span className="h3 mb-0 text-dark">Meme Game </span>
             </a>
           </Col>

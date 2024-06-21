@@ -169,7 +169,7 @@ app.get("/api/games", isLoggedIn, (req, res) => {
 app.get("/api/games/:id", isLoggedIn, (req, res) => {
   const userId = req.user.id;
   const gameId = req.params.id;
-  gameDAO.getGame(userId,gameId ).then((games) => res.json(games)).catch((err) => res.status(500).json(err));
+  gameDAO.getGame(userId,gameId).then((games) => res.json(games)).catch((err) => res.status(500).json(err));
 });
 
 // Activating the server
