@@ -145,7 +145,7 @@ const gameValidation = [
   check("time_taken").isInt({ min: 0 }),
   check("rounds").isArray({ min: 1 }),
 ]
-app.post("/api/games", isLoggedIn,gameValidation, (req, res) => {
+app.post("/api/games", isLoggedIn, gameValidation, (req, res) => {
   const invalidFields = validationResult(req);
   if (!invalidFields.isEmpty()) {
     return onValidationErrors(invalidFields, res);
