@@ -172,6 +172,14 @@ app.get("/api/games/:id", isLoggedIn, (req, res) => {
   gameDAO.getGame(userId,gameId).then((games) => res.json(games)).catch((err) => res.status(500).json(err));
 });
 
+// 4. Get total points for an user
+// GET /api/games/total
+// This route is used to get total points for an user
+app.get("/api/points", (req, res) => {
+  const userId = req.user.id;
+  gameDAO.getTotalPoints(userId).then((points) => res.json(points)).catch((err) => res.status(500).json(err));
+});
+
 // Activating the server
 const PORT = 3001;
 app.listen(PORT, () =>

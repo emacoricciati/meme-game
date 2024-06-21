@@ -208,17 +208,6 @@ body {
   
 }
 
-.game-over-title {
-  color: #343a40;
-  font-size: 4em;
-}
-
-.game-over-details h2 {
-  margin-bottom: 10px;
-  font-size: 2em;
-  color: #495057;
-}
-
 /* countdown */
 
 .countdown {

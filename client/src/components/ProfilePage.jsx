@@ -1,16 +1,20 @@
 import PropTypes from "prop-types";
-import { getGames } from "../API";
+import { getGames, getTotalPoints } from "../API";
 import { useState, useEffect } from "react";
 import { Game } from "./Game";
 import { Container, Col, Row } from "react-bootstrap";
 
 export const ProfilePage = ({ user }) => {
   const [games, setGames] = useState([]);
+  const [totalPoints, setTotalPoints] = useState(0);
 
   useEffect(() => {
     getGames().then((games) => {
       const sortedGames = games.sort((a, b) => b.date - a.date);
       setGames(sortedGames);
+    });
+    getTotalPoints().then((points) => {
+      setTotalPoints(points);
     });
   }, []);
 
@@ -23,6 +27,7 @@ export const ProfilePage = ({ user }) => {
         <Row>
           <Col>
             <h3>Total number of games played: {games.length} </h3>
+            <h3>Total points: {totalPoints}</h3>
           </Col>
           <Col>
             <h3>Meme unlocked: 10/20 </h3>{" "}

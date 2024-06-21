@@ -85,3 +85,11 @@ export const logout = async() => {
         }).then(handleInvalidResponse)
         .then(response => response.json());
     };
+
+    // get total points
+    export const getTotalPoints = async () => {
+        return await fetch(baseURL + '/points', {
+            credentials: 'include'
+        }).then(handleInvalidResponse)
+        .then(response => response.json());
+    };

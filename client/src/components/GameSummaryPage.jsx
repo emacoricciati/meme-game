@@ -11,14 +11,14 @@ export const GameSummaryPage = () => {
   const [game, setGame] = useState(null);
 
   const getCaptionColor = (round) => {
-    if (round.caption !== 'Not answered') {
+    if (round.caption !== "Not answered") {
       if (round.points) {
-        return 'text-success';
+        return "text-success";
       } else {
-        return 'text-danger';
+        return "text-danger";
       }
     }
-    return '';
+    return "";
   };
 
   useEffect(() => {
@@ -31,25 +31,25 @@ export const GameSummaryPage = () => {
     <Container>
       {game && (
         <>
-          <h1 className="mt-2">Game #{params.gameId}</h1>
+          <h1 className="mt-2 text-center">Game #{params.gameId}</h1>
           <Row className="mt-2">
             <Col>
-              <h3>
+              <h3 className="text-center">
                 Date: {dayjs(parseInt(game.date)).format("YYYY-MM-DD HH:mm")}
               </h3>
             </Col>
             <Col>
-              <h3>Time taken: {game.time_taken}s</h3>
+              <h3 className="text-center">Time taken: {game.time_taken}s</h3>
             </Col>
             <Col>
-              <h3>Total points: {game.total}</h3>
+              <h3 className="text-center">Total points: {game.total}</h3>
             </Col>
           </Row>
           <Row className="mt-5">
             {game.rounds.map((round, index) => (
               <Col
                 key={index}
-                className="d-flex justify-content-center align-items-center flex-column"
+                className="d-flex flex-column align-items-center"
               >
                 <h2 className="text-center">Round {round.round_number}</h2>
                 <div className="img-with-caption text-center">
@@ -57,9 +57,9 @@ export const GameSummaryPage = () => {
                     className="img-in-caption mt-4"
                     src={`/meme/${round.image}`}
                   />
-                  <h4 className={`mt-3 ${getCaptionColor(round)}`}>
+                  <h5 className={`mt-3 ${getCaptionColor(round)}`}>
                     {round.caption}
-                  </h4>
+                  </h5>
                 </div>
                 <h4 className="mt-2 text-center">Points: {round.points}</h4>
               </Col>

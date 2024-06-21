@@ -25,7 +25,7 @@ export const GameOver = ({ rounds, score, time, closeGameOver }) => {
           {rounds.map((round, index) => (
             <Col
               key={index}
-              className="d-flex justify-content-center align-items-center flex-column"
+              className="d-flex flex-column align-items-center"
             >
               <h4 className="text-center">Round {round.round_number}</h4>
               <div className="game-over-img-container text-center">
@@ -53,7 +53,7 @@ export const GameOver = ({ rounds, score, time, closeGameOver }) => {
           <Col className="text-end">
             <CtaButton text="Play again" action={closeGameOver} />
           </Col>
-          <Col>
+          <Col className="text-start">
             <CtaButton text="Go to home" action={() => navigate("/")} />
           </Col>
         </Row>
