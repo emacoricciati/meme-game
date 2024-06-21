@@ -4,14 +4,15 @@ import PropTypes from "prop-types";
 export const Timer = ({ stopTimer, getTime }) => {
   const [counter, setCounter] = useState(30);
   const [strokeDashoffset, setStrokeDashoffset] = useState(282.7433388230814); // 2 π r = 2 * 45 * π
-  const [strokeColor, setStrokeColor] = useState("#8A9B0F");
+  const [strokeColor, setStrokeColor] = useState("#28a745");
   const startTimeRef = useRef(Date.now());
 
+  // TO DO: counter added for handling the elapsed time
   useEffect(() => {
-    if (stopTimer) {
+    if (stopTimer && counter > 0) {
       getTime(30-counter);
     }
-  },[stopTimer, counter, getTime])
+  },[stopTimer, counter])
   
   useEffect(() => {
 
@@ -41,7 +42,7 @@ export const Timer = ({ stopTimer, getTime }) => {
     if (!stopTimer) {
       startTimeRef.current = Date.now(); // Reset start time
       setCounter(30); // Reset counter to 30 seconds
-      setStrokeColor("#8A9B0F"); // Reset stroke color
+      setStrokeColor("#28a745"); // Reset stroke color
       animationFrameId = requestAnimationFrame(animate); // Start animation
     }
 

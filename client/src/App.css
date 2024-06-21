@@ -4,7 +4,7 @@
   --success: #28a745;
   --info: #A0DEFF;
   --warning: #ffc107;
-  --danger: #dc3545;
+  --danger: #FF0000;
   --light: #FFCF96;
   --dark: #5AB2FF;
 }
@@ -41,7 +41,6 @@ body {
 }
 
 /* Caption buttons */
-
 
 .btn-custom {
   position: relative;
@@ -81,12 +80,6 @@ body {
   height: 100%;
 }
 
-.btn-custom:hover{
-  /* background-color: var(--info) !important;
-  border-color: var(--info) !important; */
-  box-shadow: 0 0 10px #000000;
-}
-
 .btn-link {
   background-color: var(--secondary) !important;
   border-color: var(--secondary) !important;
@@ -95,6 +88,16 @@ body {
 
 .btn-link:hover {
   color: grey !important;
+}
+
+/* Input */
+
+.input {
+  border-radius: 5px;
+  border: 2px solid #000000 !important;
+  background-color: var(--primary) !important;
+  box-shadow: 4px 4px #000000 !important;
+  outline: none;
 }
 
 
@@ -127,6 +130,8 @@ body {
   border: 2px solid #000000 !important;
   box-shadow: 4px 4px #000000;
 }
+
+
 /* Game over */
 
 .overlay {
