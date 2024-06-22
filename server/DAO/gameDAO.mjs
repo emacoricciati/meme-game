@@ -120,4 +120,54 @@ export default function GameDAO() {
       });
     });
   }
+
+  // this.getUnlockedMemes = (userId) => {
+  //   return new Promise((resolve, reject) => {
+  //     const query = "SELECT COUNT(DISTINCT image_id) as unlocked FROM rounds JOIN games ON rounds.game_id = games.game_id WHERE user_id = ?";
+  //     db.get(query, [userId], (err, row) => {
+  //       if (err) {
+  //         console.log(err);
+  //         reject(err);
+  //         return;
+  //       }
+  //       if (row) {
+  //         resolve(row.unlocked);
+  //       }
+  //     });
+  //   });
+  // }
+
+  this.getUnlockedMemes = (userId) => {
+    return new Promise((resolve, reject) => {
+
+      const unlockedQuery = "SELECT COUNT(DISTINCT image_id) as unlocked FROM rounds JOIN games ON rounds.game_id = games.game_id WHERE user_id = ?";
+      const totalQuery = "SELECT COUNT(*) as total FROM images";
+  
+      db.get(unlockedQuery, [userId], (err, unlockedRow) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+          return;
+        }
+  
+        db.get(totalQuery, [], (err, totalRow) => {
+          if (err) {
+            console.log(err);
+            reject(err);
+            return;
+          }
+  
+          if (unlockedRow && totalRow) {
+            resolve({
+              unlockedMemes: unlockedRow.unlocked,
+              totalMemes: totalRow.total
+            });
+          } else {
+            reject(new Error("Errore nel recupero dei dati"));
+          }
+        });
+      });
+    });
+  };
+  
 }

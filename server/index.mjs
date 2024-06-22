@@ -126,17 +126,21 @@ app.delete("/api/sessions/current", (req, res) => {
   });
 });
 
-// /*** Image APIs ***/
-// 1. Get a random image
-// GET /api/images
-// This route returns an image object with all possible captions to play
-app.get("/api/images", (req, res) => {
+// /*** Meme APIs ***/
+
+// 1. Get a random meme
+// GET /api/memes/random
+// This route returns a meme object with all possible captions to play
+app.get("/api/memes/random", (req, res) => {
   const excludedIds = req.query.ids;
   // get films that match optional filter in the query
   imageDAO.getRandomImage(excludedIds).then((image) => res.json(image)).catch((err) => res.status(500).json(err));
 });
 
-// 2. Post a game result
+
+// /*** Game APIs ***/
+
+// 1. Post a game result
 // POST /api/games
 // This route is used to post a game result
 const gameValidation = [
@@ -175,9 +179,17 @@ app.get("/api/games/:id", isLoggedIn, (req, res) => {
 // 4. Get total points for an user
 // GET /api/games/total
 // This route is used to get total points for an user
-app.get("/api/points", (req, res) => {
+app.get("/api/user/points", (req, res) => {
   const userId = req.user.id;
   gameDAO.getTotalPoints(userId).then((points) => res.json(points)).catch((err) => res.status(500).json(err));
+});
+
+// 5. Get unlocked memes for an user
+// GET /api/user/memes/unlocked
+// This route is used to get unlocked images for an user
+app.get("/api/user/memes/unlocked", isLoggedIn, (req, res) => {
+  const userId = req.user.id;
+  gameDAO.getUnlockedMemes(userId).then((images) => res.json(images)).catch((err) => res.status(500).json(err));
 });
 
 // Activating the server

@@ -23,7 +23,7 @@ export const getRandomMeme = async (images) => {
     } 
     const excludedIds = images.map(image => image.id);
     const excludedIdsQueryString = excludedIds.length ? '?ids=' + excludedIds.join(',') : '';
-  const response = await fetch(`${baseURL}/images${excludedIdsQueryString}`, {credentials: 'include'})
+  const response = await fetch(`${baseURL}/memes/random${excludedIdsQueryString}`, {credentials: 'include'})
   .then(handleInvalidResponse)
   .then(response => response.json());
     return response;
@@ -88,7 +88,15 @@ export const logout = async() => {
 
     // get total points
     export const getTotalPoints = async () => {
-        return await fetch(baseURL + '/points', {
+        return await fetch(baseURL + '/user/points', {
+            credentials: 'include'
+        }).then(handleInvalidResponse)
+        .then(response => response.json());
+    };
+
+    // get unlocked memes
+    export const getUnlockedMemes = async () => {
+        return await fetch(baseURL + '/user/memes/unlocked', {
             credentials: 'include'
         }).then(handleInvalidResponse)
         .then(response => response.json());

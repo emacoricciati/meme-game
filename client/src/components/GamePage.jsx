@@ -95,6 +95,8 @@ export const GamePage = ({ isLoggedIn }) => {
   };
 
   // TO DO change last image of one game to first image of next game
+  // TO DO take a look at game 35 to fix images sizes
+  // TO DO add a loading spinner
 
   const closeGameOver = () => {
     setShow(false);
