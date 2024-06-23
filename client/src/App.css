@@ -51,8 +51,6 @@ body {
   border-color: #000000 !important;
   border: 2px solid #000000 !important;
   box-shadow: 4px 4px #000000;
-  /* crop image as square */
-  object-fit: cover !important;
   width: 22vw !important;
   height: 22vw !important;
 }
@@ -174,7 +172,6 @@ body {
 }
 
 .game-over-container {
-  /* position: absolute; */
   background-color: #d7efee;
   border: 2px solid #343a40;
   border-radius: 10px;
@@ -206,6 +203,13 @@ body {
   border-radius: 9%;
   border: 2px solid #000000 !important;
   
+}
+
+/* spinner */
+.spinner-custom {
+  color: var(--secondary) !important;
+  width: 100px !important;
+  height: 100px !important;
 }
 
 /* countdown */

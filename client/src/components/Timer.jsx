@@ -7,7 +7,7 @@ export const Timer = ({ stopTimer, getTime }) => {
   const [strokeColor, setStrokeColor] = useState("#28a745");
   const startTimeRef = useRef(Date.now());
 
-  // TO DO: counter added for handling the elapsed time
+  // TODO: counter added for handling the elapsed time
   useEffect(() => {
     if (stopTimer && counter > 0) {
       getTime(30-counter);

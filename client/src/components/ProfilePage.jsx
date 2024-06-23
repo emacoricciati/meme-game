@@ -40,7 +40,6 @@ export const ProfilePage = ({ user }) => {
               Meme unlocked: {numberOfMemes.unlockedMemes}/
               {numberOfMemes.totalMemes}{" "}
             </h3>{" "}
-            {/* TODO: This is a placeholder for the meme unlock feature */}
           </Col>
           <h3 className="mb-3">Your games:</h3>
           {games.map((game, index) => (

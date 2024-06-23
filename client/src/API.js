@@ -16,7 +16,7 @@ const handleInvalidResponse =  (response) => {
 };
 
 // get random meme
-// TO DO Map response to Image object
+// TODO Map response to Image object
 export const getRandomMeme = async (images) => {
     if(!images){
         images = [];

@@ -12,25 +12,26 @@ import { login, getUserInfo, logout } from "./API";
 import { ProfilePage } from "./components/ProfilePage";
 import { GameSummaryPage } from "./components/GameSummaryPage";
 import { NotFoundPage } from "./components/NotFoundPage";
+import { LoadingSpinner } from "./components/LoadingSpinner";
 
 function App() {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getUserInfo()
       .then((user) => {
         setUser(user);
         setIsLoggedIn(true);
-        setLoading(false);
+        setIsLoading(false);
       })
       .catch(() => {
         if (isLoggedIn)
-          // TO DO: Handle error
+          // TODO: Handle error
           setUser(null);
         setIsLoggedIn(false);
-        setLoading(false);
+        setIsLoading(false);
       });
   }, []);
 
@@ -46,11 +47,13 @@ function App() {
     setIsLoggedIn(false);
   };
 
+  // TODO: check time time for expiration and refresh token
+
   return (
     <div className="app-container">
       <NavBar isLoggedIn={isLoggedIn} logout={handleLogout} />
-      {loading ? (
-        <div>Loading...</div>
+      {isLoading ? (
+        <LoadingSpinner />
       ) : (
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -77,7 +80,6 @@ function App() {
             }
           />
           <Route path="*" element={<NotFoundPage />} />
-          {/* TO DO Add 404 page not found */}
         </Routes>
       )}
     </div>

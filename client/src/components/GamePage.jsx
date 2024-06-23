@@ -6,6 +6,7 @@ import { CaptionList } from "./CaptionList";
 import { GameOver } from "./GameOver";
 import { postGame } from "../API";
 import PropType from "prop-types";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 export const GamePage = ({ isLoggedIn }) => {
   const [currentMeme, setCurrentMeme] = useState(null);
@@ -19,6 +20,7 @@ export const GamePage = ({ isLoggedIn }) => {
   const [savedRounds, setSavedRounds] = useState([]);
   const [show, setShow] = useState(false);
   const [feedback, setFeedback] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const initialRender = useRef(true); // to prevent two fetches on first render
   // useRef instead of useState because we don't want to re-render when it changes
 
@@ -33,6 +35,7 @@ export const GamePage = ({ isLoggedIn }) => {
       fetchMeme = () => {
         getRandomMeme(currentMeme ? [currentMeme] : undefined).then((meme) => {
           setCurrentMeme(meme);
+          setIsLoading(false);
         });
       };
     } else {
@@ -42,10 +45,12 @@ export const GamePage = ({ isLoggedIn }) => {
           setMemes((prevMemes) => [...prevMemes, meme]);
           setStopTimer(false);
           setShowCorrectCaptions(false);
+          setIsLoading(false);
         });
       };
     }
     if (!gameOver) {
+      setIsLoading(true);
       console.log("fetching meme");
       fetchMeme();
     }
@@ -94,9 +99,7 @@ export const GamePage = ({ isLoggedIn }) => {
     }
   };
 
-  // TO DO change last image of one game to first image of next game
-  // TO DO take a look at game 35 to fix images sizes
-  // TO DO add a loading spinner
+  // TODO change last image of one game to first image of next game
 
   const closeGameOver = () => {
     setShow(false);
@@ -139,51 +142,50 @@ export const GamePage = ({ isLoggedIn }) => {
 
   return (
     <>
-      <Container fluid className="mt-2">
-        {currentMeme && (
-          <>
-            <Row className="w-100 mb-5">
-              <Col className="col-4 d-flex justify-content-center align-items-center">
-                <div>
-                  <Timer stopTimer={stopTimer} getTime={getElapsedTime} />
-                </div>
-              </Col>
-              <Col className="col-4 d-flex justify-content-center align-items-center">
-                <div className="d-flex flex-column justify-content-center align-items-center">
-                  <h3>
-                    Round: {round}/{isLoggedIn ? 3 : 1}
-                  </h3>
-                  <Image
-                    className="img-custom"
-                    src={`/meme/${currentMeme.filename}`}
-                  />
-                </div>
-              </Col>
-              <Col className="col-4 d-flex flex-column justify-content-center align-items-center position-relative">
-                <div className="d-flex align-items-center">
-                  <i className="bi bi-trophy-fill h1 text-warning me-2"></i>
-                  <h1>Score: {score}</h1>
-                </div>
-                <Alert
-                  show={show}
-                  onClose={() => setShow(false)}
-                  variant={feedback === "Correct answer!" ? "success" : "danger"}
-                  className="mt-3 position-absolute w-100"
-                  style={{ top: "70%" }}
-                >
-                  {feedback}
-                </Alert>
-              </Col>
-            </Row>
-            <CaptionList
-              captions={currentMeme.captions}
-              handleAnswer={handleAnswer}
-              showCorrect={showCorrectCaptions}
-              key={round}
-            />
-          </>
-        )}
-      </Container>
+      {isLoading && <LoadingSpinner />}
+      {!isLoading && currentMeme && (
+        <Container fluid className="mt-2">
+          <Row className="w-100 mb-5">
+            <Col className="col-4 d-flex justify-content-center align-items-center">
+              <div>
+                <Timer stopTimer={stopTimer} getTime={getElapsedTime} />
+              </div>
+            </Col>
+            <Col className="col-4 d-flex justify-content-center align-items-center">
+              <div className="d-flex flex-column justify-content-center align-items-center">
+                <h3>
+                  Round: {round}/{isLoggedIn ? 3 : 1}
+                </h3>
+                <Image
+                  className="img-custom"
+                  src={`/meme/${currentMeme.filename}`}
+                />
+              </div>
+            </Col>
+            <Col className="col-4 d-flex flex-column justify-content-center align-items-center position-relative">
+              <div className="d-flex align-items-center">
+                <i className="bi bi-trophy-fill h1 text-warning me-2"></i>
+                <h1>Score: {score}</h1>
+              </div>
+              <Alert
+                show={show}
+                onClose={() => setShow(false)}
+                variant={feedback === "Correct answer!" ? "success" : "danger"}
+                className="mt-3 position-absolute w-100"
+                style={{ top: "70%" }}
+              >
+                {feedback}
+              </Alert>
+            </Col>
+          </Row>
+          <CaptionList
+            captions={currentMeme.captions}
+            handleAnswer={handleAnswer}
+            showCorrect={showCorrectCaptions}
+            key={round}
+          />
+        </Container>
+      )}
       {gameOver && (
         <div className="overlay">
           <GameOver
@@ -191,6 +193,7 @@ export const GamePage = ({ isLoggedIn }) => {
             score={score}
             time={time}
             closeGameOver={closeGameOver}
+            isLoggedIn={isLoggedIn}
           />
         </div>
       )}
