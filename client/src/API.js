@@ -1,7 +1,10 @@
-
+import { Meme } from "../../server/components/Meme.mjs";
 
 const baseURL = 'http://localhost:3001/api';
 
+const mapApiMemeToMeme = (apiMeme) => {
+    return new Meme(apiMeme.id, apiMeme.filename, apiMeme.captions);
+}
 
 const handleInvalidResponse =  (response) => {
     if(!response.ok){
@@ -16,7 +19,6 @@ const handleInvalidResponse =  (response) => {
 };
 
 // get random meme
-// TODO Map response to Image object
 export const getRandomMeme = async (images) => {
     if(!images){
         images = [];
@@ -25,7 +27,7 @@ export const getRandomMeme = async (images) => {
     const excludedIdsQueryString = excludedIds.length ? '?ids=' + excludedIds.join(',') : '';
   const response = await fetch(`${baseURL}/memes/random${excludedIdsQueryString}`, {credentials: 'include'})
   .then(handleInvalidResponse)
-  .then(response => response.json());
+  .then(response => response.json()).then(mapApiMemeToMeme);
     return response;
 };
 
@@ -97,6 +99,14 @@ export const logout = async() => {
     // get unlocked memes
     export const getUnlockedMemes = async () => {
         return await fetch(baseURL + '/user/memes/unlocked', {
+            credentials: 'include'
+        }).then(handleInvalidResponse)
+        .then(response => response.json());
+    };
+
+    // Get correct captions for a specific meme
+    export const validateCaption = async (memeId, captionId) => {
+        return await fetch(`${baseURL}/memes/${memeId}/validate/${captionId}`, {
             credentials: 'include'
         }).then(handleInvalidResponse)
         .then(response => response.json());

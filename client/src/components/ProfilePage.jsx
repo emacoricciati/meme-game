@@ -3,13 +3,14 @@ import { getGames, getTotalPoints, getUnlockedMemes } from "../API";
 import { useState, useEffect } from "react";
 import { Game } from "./Game";
 import { Container, Col, Row } from "react-bootstrap";
+import { CtaButton } from "./CtaButton";
+import { useNavigate } from "react-router-dom";
 
 export const ProfilePage = ({ user }) => {
+  const navigate = useNavigate();
   const [games, setGames] = useState([]);
   const [totalPoints, setTotalPoints] = useState(0);
   const [numberOfMemes, setNumberOfMemes] = useState(0);
-
-  // TODO: add a button to navigate
 
   useEffect(() => {
     getGames().then((games) => {
@@ -32,23 +33,37 @@ export const ProfilePage = ({ user }) => {
       ) : (
         <Row>
           <Col>
-            <h3>Total number of games played: {games.length} </h3>
-            <h3>Total points: {totalPoints}</h3>
+            <h3>Games played: {games.length} </h3>
           </Col>
           <Col>
-            <h3>
+            <h3 className="text-center">
               Meme unlocked: {numberOfMemes.unlockedMemes}/
-              {numberOfMemes.totalMemes}{" "}
-            </h3>{" "}
+              {numberOfMemes.totalMemes}
+            </h3>
           </Col>
-          <h3 className="mb-3">Your games:</h3>
-          {games.map((game, index) => (
-            <Game
-              key={game.game_id}
-              game={game}
-              gameID={games.length - index}
+          <Col className="text-center">
+            <CtaButton
+              text="Start a new game!"
+              action={() => navigate("/game")}
             />
-          ))}
+          </Col>
+          <Row>
+            <h3>Total points: {totalPoints}</h3>
+          </Row>
+          {games.length > 0 ? (
+            <Row>
+              <h3 className="mt-3 mb-3">Your games:</h3>
+              {games.map((game, index) => (
+                <Game
+                  key={game.game_id}
+                  game={game}
+                  gameID={games.length - index}
+                />
+              ))}
+            </Row>
+          ) : (
+            <h3 className="mt-3">You haven&apos;t played any games yet.</h3>
+          )}
         </Row>
       )}
     </Container>

@@ -5,13 +5,10 @@ import PropType from "prop-types";
 export const NavBar = ({ logout, isLoggedIn }) => {
   const navigate = useNavigate();
   return (
-    <div className="navbar-custom py-2">
+    <div className="navbar-custom py-2 sticky-top">
       <Container fluid className="align-items-center">
         <Row>
           <Col>
-            <Button variant="link" className="text-decoration-none fs-5">
-              Theme
-            </Button>
           </Col>
           <Col className="d-flex align-items-center justify-content-center">
             <a

@@ -11,12 +11,6 @@ export const GameOver = ({
   closeGameOver,
   isLoggedIn,
 }) => {
-  useEffect(() => {
-    // prevent scrolling on game over
-    if (typeof window !== "undefined" && window.document) {
-      document.body.style.overflow = "hidden";
-    }
-  }, []);
 
   const navigate = useNavigate();
 

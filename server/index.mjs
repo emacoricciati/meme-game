@@ -2,11 +2,11 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { check, param, validationResult } from "express-validator";
-import ImageDAO from "./DAO/imageDAO.mjs";
+import MemeDAO from "./DAO/memeDAO.mjs";
 import UserDao from "./DAO/userDAO.mjs";
 import GameDAO from "./DAO/gameDAO.mjs";
 
-const imageDAO = new ImageDAO();
+const memeDAO = new MemeDAO();
 const userDao = new UserDao();
 const gameDAO = new GameDAO();
 
@@ -134,7 +134,7 @@ app.delete("/api/sessions/current", (req, res) => {
 app.get("/api/memes/random", (req, res) => {
   const excludedIds = req.query.ids;
   // get films that match optional filter in the query
-  imageDAO.getRandomImage(excludedIds).then((image) => res.json(image)).catch((err) => res.status(500).json(err));
+  memeDAO.getRandomImage(excludedIds).then((image) => res.json(image)).catch((err) => res.status(500).json(err));
 });
 
 
@@ -190,6 +190,23 @@ app.get("/api/user/points", (req, res) => {
 app.get("/api/user/memes/unlocked", isLoggedIn, (req, res) => {
   const userId = req.user.id;
   gameDAO.getUnlockedMemes(userId).then((images) => res.json(images)).catch((err) => res.status(500).json(err));
+});
+
+// 6. Get correct captions for a specific meme
+// GET /api/memes/:id/captions
+// This route is used to get correct captions for a specific meme
+app.get("/api/memes/:id/captions", (req, res) => {
+  const imageId = req.params.id;
+  memeDAO.getCaptionsByImageId(imageId).then((captions) => res.json(captions)).catch((err) => res.status(500).json(err));
+});
+
+// 7. Validate the meme caption answer
+// GET /api/memes/:id/validate/:captionId
+// This route is used to validate the meme caption answer
+app.get("/api/memes/:id/validate/:captionId", (req, res) => {
+  const imageId = req.params.id;
+  const captionId = req.params.captionId;
+  memeDAO.validateAnswer(imageId, captionId).then((result) => res.json(result)).catch((err) => res.status(500).json(err));
 });
 
 // Activating the server

@@ -6,8 +6,7 @@ export const Timer = ({ stopTimer, getTime }) => {
   const [strokeDashoffset, setStrokeDashoffset] = useState(282.7433388230814); // 2 π r = 2 * 45 * π
   const [strokeColor, setStrokeColor] = useState("#28a745");
   const startTimeRef = useRef(Date.now());
-
-  // TODO: counter added for handling the elapsed time
+  
   useEffect(() => {
     if (stopTimer && counter > 0) {
       getTime(30-counter);

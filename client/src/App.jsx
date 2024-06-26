@@ -26,9 +26,10 @@ function App() {
         setIsLoggedIn(true);
         setIsLoading(false);
       })
-      .catch(() => {
-        if (isLoggedIn)
-          // TODO: Handle error
+      .catch((e) => {
+        if (isLoggedIn){
+          console.log("Error fetching user info", e);
+        }
           setUser(null);
         setIsLoggedIn(false);
         setIsLoading(false);
@@ -46,8 +47,6 @@ function App() {
     setUser(null);
     setIsLoggedIn(false);
   };
-
-  // TODO: check time time for expiration and refresh token
 
   return (
     <div className="app-container">

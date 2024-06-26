@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Container, Row, Col, Image, Alert } from "react-bootstrap";
 import { Timer } from "./Timer";
-import { getRandomMeme } from "../API";
+import { getRandomMeme, validateCaption } from "../API";
 import { CaptionList } from "./CaptionList";
 import { GameOver } from "./GameOver";
 import { postGame } from "../API";
@@ -21,6 +21,7 @@ export const GamePage = ({ isLoggedIn }) => {
   const [show, setShow] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [correctCaptions, setCorrectCaptions] = useState(null);
   const initialRender = useRef(true); // to prevent two fetches on first render
   // useRef instead of useState because we don't want to re-render when it changes
 
@@ -44,7 +45,7 @@ export const GamePage = ({ isLoggedIn }) => {
           setCurrentMeme(meme);
           setMemes((prevMemes) => [...prevMemes, meme]);
           setStopTimer(false);
-          setShowCorrectCaptions(false);
+          setShowCorrectCaptions(null);
           setIsLoading(false);
         });
       };
@@ -64,18 +65,31 @@ export const GamePage = ({ isLoggedIn }) => {
         time_taken: time,
         rounds: savedRounds,
       };
-      postGame(game); // TO DO  check response
+      postGame(game).catch(() => {console.log("Game not saved")});
     }
   }, [gameOver]);
 
-  const handleAnswer = (isCorrect, captionId, caption) => {
+  const handleAnswer = async (_, captionId, caption) => {
+    const { isCorrect, correctCaptions: curr } = await validateCaption(
+      currentMeme.id,
+      captionId
+    );
+    setCorrectCaptions(curr);
+    setShowCorrectCaptions(!isCorrect);
     setShow(true);
     if (isCorrect) {
-      setFeedback("Correct answer!");
+      if (round < 3 && isLoggedIn) {
+        setFeedback("Correct answer! Next round starting...");
+      } else {
+        setFeedback("Correct answer!");
+      }
       setScore((prevScore) => prevScore + 5);
     } else {
-      setFeedback("Incorrect answer!");
-      setShowCorrectCaptions(true);
+      if (round < 3 && isLoggedIn) {
+        setFeedback("Incorrect answer! Next round starting...");
+      } else {
+        setFeedback("Incorrect answer!");
+      }
     }
     setStopTimer(true);
     const savedRound = {
@@ -99,8 +113,6 @@ export const GamePage = ({ isLoggedIn }) => {
     }
   };
 
-  // TODO change last image of one game to first image of next game
-
   const closeGameOver = () => {
     setShow(false);
     setSavedRounds([]);
@@ -108,7 +120,7 @@ export const GamePage = ({ isLoggedIn }) => {
     setRound(1);
     setGameOver(false);
     setStopTimer(false);
-    setShowCorrectCaptions(false);
+    setShowCorrectCaptions(null);
     setScore(0);
   };
 
@@ -117,7 +129,12 @@ export const GamePage = ({ isLoggedIn }) => {
       setStopTimer(true);
       setShowCorrectCaptions(true);
       setShow(true);
-      setFeedback("Time's up!");
+      if (round < 3 && isLoggedIn) {
+        setFeedback("Time's up! Next round starting...");
+      } else {
+        setFeedback("Time's up!");
+      }
+
       const savedRound = {
         round_number: round,
         imageId: currentMeme.id,
@@ -170,7 +187,7 @@ export const GamePage = ({ isLoggedIn }) => {
               <Alert
                 show={show}
                 onClose={() => setShow(false)}
-                variant={feedback === "Correct answer!" ? "success" : "danger"}
+                variant={feedback.includes("Correct answer!") ? "success" : "danger"}
                 className="mt-3 position-absolute w-100"
                 style={{ top: "70%" }}
               >
@@ -179,6 +196,8 @@ export const GamePage = ({ isLoggedIn }) => {
             </Col>
           </Row>
           <CaptionList
+            round={round}
+            correctCaptions={correctCaptions}
             captions={currentMeme.captions}
             handleAnswer={handleAnswer}
             showCorrect={showCorrectCaptions}

@@ -1,5 +1,5 @@
 import db from "../db/db.mjs";
-import { Image, Caption } from "../components/Image.mjs";
+import { Meme, Caption } from "../components/Meme.mjs";
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -8,7 +8,7 @@ function shuffleArray(array) {
   }
 }
 
-export default function ImageDAO() {
+export default function MemeDAO() {
   this.getCaptionsByImageId = (imageId) => {
     return new Promise((resolve, reject) => {
       const query =
@@ -21,7 +21,7 @@ export default function ImageDAO() {
         if (rows === undefined || rows.length === 0) {
           reject({ error: "Captions not found." });
         } else {
-          resolve(rows.map((row) => new Caption(row.id, row.caption, true)));
+          resolve(rows.map((row) => new Caption(row.id, row.caption)));
         }
       });
     });
@@ -38,7 +38,7 @@ export default function ImageDAO() {
         } else if (rows === undefined || rows.length === 0) {
           reject({ error: "Captions not found." });
         } else {
-          resolve(rows.map((row) => new Caption(row.id, row.caption, false)));
+          resolve(rows.map((row) => new Caption(row.id, row.caption)));
         }
       });
     });
@@ -59,7 +59,7 @@ export default function ImageDAO() {
             reject(err);
           }
           if (row === undefined) {
-            reject({ error: "Image not found." });
+            reject({ error: "Meme not found." });
           } else {
             const correctCaptions = await this.getCaptionsByImageId(row.id);
             const wrongCaptions = await this.getRandomCaptions(
@@ -67,12 +67,30 @@ export default function ImageDAO() {
             );
             const array = correctCaptions.concat(wrongCaptions);
             shuffleArray(array);
-            resolve(new Image(row.id, row.filename, array));
+            resolve(new Meme(row.id, row.filename, array));
           }
         });
       } catch (err) {
         reject(err);
       }
+    });
+  };
+
+  // Validate the meme caption answer, it returns an object with isCorrect field and in case isCorrect is false, it returns the correct captions
+  this.validateAnswer = (imageId, captionId) => {
+    return new Promise((resolve, reject) => {
+      const query =
+        "SELECT * FROM image_captions WHERE image_id = ? AND caption_id = ?";
+      db.get(query, [imageId, captionId], (err, row) => {
+        if (err) {
+          reject(err);
+          return;
+        } else {
+          this.getCaptionsByImageId(imageId).then((correctCaptions) => {
+            resolve({ isCorrect: row !== undefined, correctCaptions });
+          });
+        }
+      });
     });
   };
 }
