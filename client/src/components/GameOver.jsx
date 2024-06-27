@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { CtaButton } from "./CtaButton";
 import { Row, Col, Image, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+
 
 export const GameOver = ({
   rounds,
