@@ -205,17 +205,16 @@ export const GamePage = ({ isLoggedIn }) => {
           />
         </Container>
       )}
-      {gameOver && (
-        <div className="overlay">
+      {
           <GameOver
+          show={gameOver}
             rounds={savedRounds}
             score={score}
             time={time}
             closeGameOver={closeGameOver}
             isLoggedIn={isLoggedIn}
           />
-        </div>
-      )}
+      }
     </>
   );
 };

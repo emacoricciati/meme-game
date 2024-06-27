@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import { CtaButton } from "./CtaButton";
-import { Row, Col, Image, Container } from "react-bootstrap";
+import { Row, Col, Image, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
 
 export const GameOver = ({
   rounds,
@@ -10,18 +9,28 @@ export const GameOver = ({
   time,
   closeGameOver,
   isLoggedIn,
+  show,
 }) => {
-
   const navigate = useNavigate();
 
   return (
-    <div className="d-flex">
-      <Container className="game-over-container">
-        <h1 className="text-center">Game Over</h1>
+    <Modal
+      show={show}
+      onHide={closeGameOver}
+      centered
+      className="custom-modal"
+      size="xl"
+      backdrop="static"
+      keyboard={false}
+    >
+      <Modal.Header>
+        <Modal.Title className="text-center w-100">Game Over</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         {isLoggedIn && (
           <>
             {rounds.filter((round) => round.points === 5).length > 0 && (
-              <h3 className="text-center">Correct memes:</h3>
+              <h4 className="text-center">Correct memes:</h4>
             )}
             <Row className="justify-content-center ms-2 me-2">
               {rounds.map(
@@ -55,20 +64,21 @@ export const GameOver = ({
             <h4 className="text-center">Total Time: {time}s</h4>
           </Col>
         </Row>
-        <Row className="justify-content-center mb-4">
-          <Col className="text-end">
-            <CtaButton text="Play again" action={closeGameOver} />
-          </Col>
-          <Col className="text-start">
-            <CtaButton text="Go to home" action={() => navigate("/")} />
-          </Col>
-        </Row>
-      </Container>
-    </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Col className="text-end">
+          <CtaButton text="Play again" action={closeGameOver} />
+        </Col>
+        <Col>
+          <CtaButton text="Go to home" action={() => navigate("/")} />
+        </Col>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
 GameOver.propTypes = {
+  show: PropTypes.bool.isRequired,
   rounds: PropTypes.array.isRequired,
   score: PropTypes.number.isRequired,
   time: PropTypes.number.isRequired,
