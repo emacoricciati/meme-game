@@ -129,7 +129,7 @@ body {
 
 .cta-button {
   margin: 50px auto 0 auto;
-  min-width: 120px;
+  min-width: 8vw;
   height: 40px;
   border-radius: 5px;
   border: 2px solid #000000 !important;

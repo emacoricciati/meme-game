@@ -67,7 +67,7 @@ export default function GameDAO() {
           return;
         } else {
           if (rows.length === 0 || rows === undefined) {
-            reject({ error: "Game not found." });
+            reject({ status: 404, error: "Game not found." });
             return;
           }
 
@@ -114,28 +114,16 @@ export default function GameDAO() {
           reject(err);
           return;
         }
+        if(!row){
+          reject({ status: 404, error: "Points not available." });
+          return;
+        }
         if (row) {
           resolve(row.total);
         }
       });
     });
   }
-
-  // this.getUnlockedMemes = (userId) => {
-  //   return new Promise((resolve, reject) => {
-  //     const query = "SELECT COUNT(DISTINCT image_id) as unlocked FROM rounds JOIN games ON rounds.game_id = games.game_id WHERE user_id = ?";
-  //     db.get(query, [userId], (err, row) => {
-  //       if (err) {
-  //         console.log(err);
-  //         reject(err);
-  //         return;
-  //       }
-  //       if (row) {
-  //         resolve(row.unlocked);
-  //       }
-  //     });
-  //   });
-  // }
 
   this.getUnlockedMemes = (userId) => {
     return new Promise((resolve, reject) => {
@@ -145,14 +133,12 @@ export default function GameDAO() {
   
       db.get(unlockedQuery, [userId], (err, unlockedRow) => {
         if (err) {
-          console.log(err);
           reject(err);
           return;
         }
   
         db.get(totalQuery, [], (err, totalRow) => {
           if (err) {
-            console.log(err);
             reject(err);
             return;
           }
@@ -163,7 +149,7 @@ export default function GameDAO() {
               totalMemes: totalRow.total
             });
           } else {
-            reject(new Error("Errore nel recupero dei dati"));
+            reject({ status: 404, error: "Unlocked memes not available." });
           }
         });
       });

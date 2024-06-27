@@ -199,7 +199,14 @@ app.get("/api/games/:id", isLoggedIn,
     }
   const userId = req.user.id;
   const gameId = req.params.id;
-  gameDAO.getGame(userId,gameId).then((games) => res.json(games)).catch((err) => res.status(500).json(err));
+  gameDAO.getGame(userId,gameId).then((games) => res.json(games)).catch((err) => {
+    if(err.status){
+      return res.status(err.status).json(err);
+    }
+    else {
+      res.status(500).json(err)
+    }
+  });
 });
 
 // 4. Get total points for an user
@@ -207,7 +214,14 @@ app.get("/api/games/:id", isLoggedIn,
 // This route is used to get total points for an user
 app.get("/api/user/points",isLoggedIn,  (req, res) => {
   const userId = req.user.id;
-  gameDAO.getTotalPoints(userId).then((points) => res.json(points)).catch((err) => res.status(500).json(err));
+  gameDAO.getTotalPoints(userId).then((points) => res.json(points)).catch((err) => {
+    if(err.status){
+      return res.status(err.status).json(err);
+    }
+    else {
+      res.status(500).json(err)
+    }
+  });
 });
 
 // 5. Get unlocked memes for an user
@@ -215,7 +229,12 @@ app.get("/api/user/points",isLoggedIn,  (req, res) => {
 // This route is used to get unlocked images for an user
 app.get("/api/user/memes/unlocked", isLoggedIn,(req, res) => {
   const userId = req.user.id;
-  gameDAO.getUnlockedMemes(userId).then((images) => res.json(images)).catch((err) => res.status(500).json(err));
+  gameDAO.getUnlockedMemes(userId).then((images) => res.json(images)).catch((err) => { 
+    if(err.status){
+      return res.status(err.status).json(err);
+    }
+    res.status(500).json(err)
+  });
 });
 
 // Activating the server

@@ -41,10 +41,16 @@ export const ProfilePage = ({ user }) => {
               {numberOfMemes.totalMemes}
             </h3>
           </Col>
-          <Col className="text-center">
+          <Col className="text-end">
             <CtaButton
               text="Start a new game!"
               action={() => navigate("/game")}
+            />
+          </Col>
+          <Col className="text-start">
+            <CtaButton
+              text="Go to home"
+              action={() => navigate("/")}
             />
           </Col>
           <Row>

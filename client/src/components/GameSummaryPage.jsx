@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { getGame } from "../API";
 import { Container, Image, Col, Row } from "react-bootstrap";
 import dayjs from "dayjs";
+import { CtaButton } from "./CtaButton";
 
 export const GameSummaryPage = () => {
   const location = useLocation();
   const params = useParams();
   const { gameId } = location.state;
   const [game, setGame] = useState(null);
+  const navigate = useNavigate();
 
   const getCaptionColor = (round) => {
     if (round.caption !== "Not answered") {
@@ -31,7 +33,13 @@ export const GameSummaryPage = () => {
     <Container>
       {game && (
         <>
-          <h1 className="mt-2 text-center">Game #{params.gameId}</h1>
+        <Row className="mt-3 mb-3">
+          <Col></Col>
+          <Col><h1 className="text-center">Game #{params.gameId}</h1></Col>
+          <Col className="text-center">
+            <CtaButton text="Go to profile" action={() => navigate("/profile")}/>
+          </Col>
+          </Row>
           <Row className="mt-2">
             <Col>
               <h3 className="text-center">
