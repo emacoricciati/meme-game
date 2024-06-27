@@ -226,7 +226,7 @@ app.get("/api/user/points",isLoggedIn,  (req, res) => {
 
 // 5. Get unlocked memes for an user
 // GET /api/user/memes/unlocked
-// This route is used to get unlocked images for an user
+// Get unlocked memes for an user
 app.get("/api/user/memes/unlocked", isLoggedIn,(req, res) => {
   const userId = req.user.id;
   gameDAO.getUnlockedMemes(userId).then((images) => res.json(images)).catch((err) => { 

@@ -110,7 +110,6 @@ export default function GameDAO() {
       const query = "SELECT SUM(total) as total FROM games WHERE user_id = ?";
       db.get(query, [userId], (err, row) => {
         if (err) {
-          console.log(err);
           reject(err);
           return;
         }
